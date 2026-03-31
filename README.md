@@ -3,6 +3,22 @@ Claude Code’s source code appears to have leaked because an early npm release 
 
 
 
+
+## Documentação completa
+
+A documentação técnica está centralizada em [`docs/README.md`](docs/README.md) e também pode ser acessada diretamente pelos tópicos abaixo:
+
+- [Visão geral](docs/01-visao-geral.md)
+- [Fluxo de execução](docs/02-fluxo-execucao.md)
+- [Arquitetura de pastas](docs/03-arquitetura-pastas.md)
+- [Comandos slash](docs/04-comandos-slash.md)
+- [Ferramentas (tools)](docs/05-ferramentas-tools.md)
+- [Estado, UI e hooks](docs/06-estado-ui-hooks.md)
+- [Serviços e integrações](docs/07-servicos-integracoes.md)
+- [Inventário do repositório](docs/08-inventario.md)
+- [Estratégias por caso de uso](docs/09-estrategias-por-caso.md)
+- [Guia de replicação do projeto](docs/10-guia-replicacao.md)
+
 ## Overview
 
 Claude Code CLI is a sophisticated terminal application that provides an interactive interface for developers to collaborate with Claude (Anthropic's AI assistant) directly from their terminal. It combines the power of large language models with comprehensive file system operations, tool calling, and extensible architecture.
