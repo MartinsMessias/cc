@@ -14,6 +14,7 @@ Esta pasta organiza a documentação técnica do repositório em múltiplos arqu
 8. [Inventário do Repositório](./08-inventario.md)
 9. [Estratégias por Caso de Uso](./09-estrategias-por-caso.md)
 10. [Guia de Replicação do Projeto](./10-guia-replicacao.md)
+11. [Operação, Desenvolvimento e Contribuição](./11-operacao-contribuicao.md)
 
 ## Como navegar
 
@@ -26,3 +27,5 @@ Esta pasta organiza a documentação técnica do repositório em múltiplos arqu
 - Se você quer **mapear estratégia de execução por cenário**, leia `09-estrategias-por-caso.md`.
 
 - Se você quer **replicar o projeto a partir da documentação**, siga `10-guia-replicacao.md`.
+
+- Se você quer **rodar mudanças no dia a dia com checklist prático**, leia `11-operacao-contribuicao.md`.

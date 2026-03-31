@@ -18,6 +18,7 @@ A documentação técnica está centralizada em [`docs/README.md`](docs/README.m
 - [Inventário do repositório](docs/08-inventario.md)
 - [Estratégias por caso de uso](docs/09-estrategias-por-caso.md)
 - [Guia de replicação do projeto](docs/10-guia-replicacao.md)
+- [Operação, desenvolvimento e contribuição](docs/11-operacao-contribuicao.md)
 
 ## Overview
 
