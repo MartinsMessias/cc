@@ -2,7 +2,7 @@ import { c as _c } from "react/compiler-runtime";
 import figures from 'figures';
 import * as React from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useDebounceCallback } from 'usehooks-ts';
+import { useDebounceCallback } from 'src/utils/usehooksTsShim.js';
 import { addDirHelpMessage, validateDirectoryForWorkspace } from '../../../commands/add-dir/validation.js';
 import TextInput from '../../../components/TextInput.js';
 import type { KeyboardEvent } from '../../../ink/events/keyboard-event.js';

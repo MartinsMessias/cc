@@ -1,0 +1,6 @@
+{
+  "name": "@alcalzone/ansi-tokenize",
+  "version": "0.0.0-snapshot",
+  "type": "module",
+  "main": "index.js"
+}

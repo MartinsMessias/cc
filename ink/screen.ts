@@ -1,9 +1,4 @@
 import {
-  type AnsiCode,
-  ansiCodesToString,
-  diffAnsiCodes,
-} from '@alcalzone/ansi-tokenize'
-import {
   type Point,
   type Rectangle,
   type Size,
@@ -11,6 +6,24 @@ import {
 } from './layout/geometry.js'
 import { BEL, ESC, SEP } from './termio/ansi.js'
 import * as warn from './warn.js'
+
+type AnsiCode = {
+  type: 'ansi'
+  code: string
+  endCode: string
+}
+
+function ansiCodesToString(codes: AnsiCode[]): string {
+  return codes.map(c => c.code).join('')
+}
+
+function diffAnsiCodes(fromCodes: AnsiCode[], toCodes: AnsiCode[]): AnsiCode[] {
+  if (fromCodes.length === toCodes.length) {
+    const same = fromCodes.every((c, i) => c.code === toCodes[i]?.code)
+    if (same) return []
+  }
+  return toCodes
+}
 
 // --- Shared Pools (interning for memory efficiency) ---
 

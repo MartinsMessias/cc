@@ -14,8 +14,6 @@
  * also lacks bidi. We enable bidi reordering when running on Windows or
  * inside Windows Terminal (covers WSL).
  */
-import bidiFactory from 'bidi-js'
-
 type ClusteredChar = {
   value: string
   width: number
@@ -23,7 +21,11 @@ type ClusteredChar = {
   hyperlink: string | undefined
 }
 
-let bidiInstance: ReturnType<typeof bidiFactory> | undefined
+type BidiLike = {
+  getEmbeddingLevels: (text: string, mode: string) => { levels: number[] }
+}
+
+let bidiInstance: BidiLike | null | undefined
 let needsSoftwareBidi: boolean | undefined
 
 function needsBidi(): boolean {
@@ -37,8 +39,14 @@ function needsBidi(): boolean {
 }
 
 function getBidi() {
-  if (!bidiInstance) {
-    bidiInstance = bidiFactory()
+  if (bidiInstance === undefined) {
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      const factory = require('bidi-js') as () => BidiLike
+      bidiInstance = factory()
+    } catch {
+      bidiInstance = null
+    }
   }
   return bidiInstance
 }
@@ -64,6 +72,7 @@ export function reorderBidi(characters: ClusteredChar[]): ClusteredChar[] {
   }
 
   const bidi = getBidi()
+  if (!bidi) return characters
   const { levels } = bidi.getEmbeddingLevels(plainText, 'auto')
 
   // Map bidi levels back to ClusteredChar indices.

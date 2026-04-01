@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useInterval } from 'usehooks-ts'
+import { useInterval } from 'src/utils/usehooksTsShim.js'
 
 export type MemoryUsageStatus = 'normal' | 'high' | 'critical'
 

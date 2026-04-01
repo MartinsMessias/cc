@@ -10,7 +10,7 @@
  */
 
 import { useCallback, useEffect, useRef } from 'react'
-import { useInterval } from 'usehooks-ts'
+import { useInterval } from 'src/utils/usehooksTsShim.js'
 import { logForDebugging } from '../utils/debug.js'
 import { errorMessage } from '../utils/errors.js'
 import {

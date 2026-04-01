@@ -1,4 +1,3 @@
-import indentString from 'indent-string'
 import { applyTextStyles } from './colorize.js'
 import type { DOMElement } from './dom.js'
 import getMaxWidth from './get-max-width.js'
@@ -16,6 +15,14 @@ import type { Color } from './styles.js'
 import { isXtermJs } from './terminal.js'
 import { widestLine } from './widest-line.js'
 import wrapText from './wrap-text.js'
+
+function indentString(input: string, count: number): string {
+  const pad = ' '.repeat(Math.max(0, count))
+  return input
+    .split('\n')
+    .map(line => (line.length > 0 ? `${pad}${line}` : line))
+    .join('\n')
+}
 
 // Matches detectXtermJsWheel() in ScrollKeybindingHandler.tsx — the curve
 // and drain must agree on terminal detection. TERM_PROGRAM check is the sync

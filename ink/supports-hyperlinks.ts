@@ -1,4 +1,10 @@
-import supportsHyperlinksLib from 'supports-hyperlinks'
+let supportsHyperlinksLib: { stdout: boolean } = { stdout: false }
+try {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  supportsHyperlinksLib = require('supports-hyperlinks')
+} catch {
+  supportsHyperlinksLib = { stdout: false }
+}
 
 // Additional terminals that support OSC 8 hyperlinks but aren't detected by supports-hyperlinks.
 // Checked against both TERM_PROGRAM and LC_TERMINAL (the latter is preserved inside tmux).

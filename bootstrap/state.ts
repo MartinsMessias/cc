@@ -1636,6 +1636,16 @@ export function setIsRemoteMode(value: boolean): void {
   STATE.isRemoteMode = value
 }
 
+export function isReplBridgeActive(): boolean {
+  if (process.env.USER_TYPE !== 'ant') return false
+  return (STATE as State & { replBridgeActive?: boolean }).replBridgeActive === true
+}
+
+export function setReplBridgeActive(value: boolean): void {
+  if (process.env.USER_TYPE !== 'ant') return
+  ;(STATE as State & { replBridgeActive?: boolean }).replBridgeActive = value
+}
+
 // System prompt section accessors
 
 export function getSystemPromptSectionCache(): Map<string, string | null> {
@@ -1755,4 +1765,3 @@ export function getPromptId(): string | null {
 export function setPromptId(id: string | null): void {
   STATE.promptId = id
 }
-

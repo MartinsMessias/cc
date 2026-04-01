@@ -1,11 +1,37 @@
-import {
-  type AnsiCode,
-  ansiCodesToString,
-  reduceAnsiCodes,
-  tokenize,
-  undoAnsiCodes,
-} from '@alcalzone/ansi-tokenize'
 import { stringWidth } from '../ink/stringWidth.js'
+
+type AnsiCode = {
+  code: string
+  endCode: string
+}
+
+type Token =
+  | { type: 'ansi'; code: string; fullWidth?: false; value?: '' }
+  | { type: 'text'; value: string; fullWidth: boolean }
+
+function tokenize(input: string): Array<Token> {
+  const parts = input.split(/(\x1b\[[0-9;]*m)/g)
+  return parts
+    .filter(Boolean)
+    .map(part =>
+      /^\x1b\[[0-9;]*m$/.test(part)
+        ? ({ type: 'ansi', code: part } as Token)
+        : ({ type: 'text', value: part, fullWidth: false } as Token),
+    )
+}
+
+function reduceAnsiCodes(codes: AnsiCode[]): AnsiCode[] {
+  return codes
+}
+
+function ansiCodesToString(codes: AnsiCode[]): string {
+  return codes.map(c => c.code).join('')
+}
+
+function undoAnsiCodes(_codes: AnsiCode[]): AnsiCode[] {
+  // Minimal fallback: rely on existing reset codes in streams.
+  return []
+}
 
 // A code is an "end code" if its code equals its endCode (e.g., hyperlink close)
 function isEndCode(code: AnsiCode): boolean {
@@ -58,7 +84,7 @@ export default function sliceAnsi(
     }
 
     if (token.type === 'ansi') {
-      activeCodes.push(token)
+      activeCodes.push({ code: token.code, endCode: token.code })
       if (include) {
         // Emit all ANSI codes during the slice
         result += token.code

@@ -8,6 +8,8 @@
     "query": "bun run query.ts"
   },
   "dependencies": {
+    "@alcalzone/ansi-tokenize": "file:vendor/ansi-tokenize",
+    "@anthropic-ai/sandbox-runtime": "^0.0.46",
     "@anthropic-ai/sdk": "^0.56.0",
     "@aws-sdk/client-bedrock-runtime": "^3.883.0",
     "@commander-js/extra-typings": "^12.1.0",
@@ -39,6 +41,7 @@
     "highlight.js": "^11.11.1",
     "https-proxy-agent": "^7.0.6",
     "ignore": "^7.0.5",
+    "jsonc-parser": "^3.3.1",
     "lodash-es": "^4.17.21",
     "lru-cache": "^11.2.1",
     "marked": "^16.3.0",
@@ -51,6 +54,9 @@
     "semver": "^7.7.2",
     "shell-quote": "^1.8.3",
     "signal-exit": "^4.1.0",
+    "supports-hyperlinks": "^4.3.0",
+    "tree-kill": "^1.2.2",
+    "xss": "^1.0.15",
     "zod": "^3.24.1"
   }
 }

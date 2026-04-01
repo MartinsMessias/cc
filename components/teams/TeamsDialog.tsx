@@ -3,7 +3,7 @@ import { randomUUID } from 'crypto';
 import figures from 'figures';
 import * as React from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useInterval } from 'usehooks-ts';
+import { useInterval } from 'src/utils/usehooksTsShim.js';
 import { useRegisterOverlay } from '../../context/overlayContext.js';
 import { stringWidth } from '../../ink/stringWidth.js';
 // eslint-disable-next-line custom-rules/prefer-use-keybindings -- raw j/k/arrow dialog navigation

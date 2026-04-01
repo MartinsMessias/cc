@@ -1,7 +1,7 @@
 import { c as _c } from "react/compiler-runtime";
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
-import { useInterval } from 'usehooks-ts';
+import { useInterval } from 'src/utils/usehooksTsShim.js';
 import type { CommandResultDisplay } from '../../commands.js';
 import { Markdown } from '../../components/Markdown.js';
 import { SpinnerGlyph } from '../../components/Spinner/SpinnerGlyph.js';
