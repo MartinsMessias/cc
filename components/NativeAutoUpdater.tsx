@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { logEvent } from 'src/services/analytics/index.js';
 import { logForDebugging } from 'src/utils/debug.js';
 import { logError } from 'src/utils/log.js';
-import { useInterval } from 'usehooks-ts';
+import { useInterval } from 'src/utils/usehooksTsShim.js';
 import { useUpdateNotification } from '../hooks/useUpdateNotification.js';
 import { Box, Text } from '../ink.js';
 import type { AutoUpdaterResult } from '../utils/autoUpdater.js';

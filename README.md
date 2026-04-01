@@ -78,6 +78,23 @@ bun install -g @anthropic-ai/claude-code
 curl -fsSL https://claude.ai/install.sh | sh
 ```
 
+### Instalação a partir deste repositório
+
+> Use o helper local para validar pré-requisitos e iniciar com uma sequência padrão.
+
+```bash
+# 1) Clone o repositório
+git clone <URL_DO_REPO> cc
+cd cc
+
+# 2) Tente executar com o helper (valida pré-requisitos)
+./scripts/run-local.sh
+```
+
+> Se preferir npm/yarn/pnpm no seu ambiente, adapte apenas o passo de instalação e scripts mantendo os mesmos comandos de execução/build definidos no `package.json`.
+
+Atalho: `./scripts/run-local.sh`
+
 ### Post-Installation Setup
 
 ```bash

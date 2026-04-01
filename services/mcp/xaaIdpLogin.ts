@@ -18,7 +18,6 @@ import {
 import { randomBytes } from 'crypto'
 import { createServer, type Server } from 'http'
 import { parse } from 'url'
-import xss from 'xss'
 import { openBrowser } from '../../utils/browser.js'
 import { isEnvTruthy } from '../../utils/envUtils.js'
 import { toError } from '../../utils/errors.js'
@@ -27,6 +26,7 @@ import { getPlatform } from '../../utils/platform.js'
 import { getSecureStorage } from '../../utils/secureStorage/index.js'
 import { getInitialSettings } from '../../utils/settings/settings.js'
 import { jsonParse } from '../../utils/slowOperations.js'
+import { sanitizeForHtml } from '../../utils/xssSanitize.js'
 import { buildRedirectUri, findAvailablePort } from './oauthPort.js'
 
 export function isXaaEnabled(): boolean {
@@ -330,8 +330,8 @@ function waitForCallback(
 
       if (err) {
         const desc = parsed.query.error_description as string | undefined
-        const safeErr = xss(err)
-        const safeDesc = desc ? xss(desc) : ''
+        const safeErr = sanitizeForHtml(err)
+        const safeDesc = desc ? sanitizeForHtml(desc) : ''
         res.writeHead(400, { 'Content-Type': 'text/html' })
         res.end(
           `<html><body><h3>IdP login failed</h3><p>${safeErr}</p><p>${safeDesc}</p></body></html>`,

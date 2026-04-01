@@ -1,4 +1,4 @@
-import { feature } from 'bun:bundle'
+import { feature } from 'src/utils/bundleFeatureShim.js'
 import { APIError } from '@anthropic-ai/sdk'
 import type {
   BetaStopReason,

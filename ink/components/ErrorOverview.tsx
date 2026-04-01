@@ -1,7 +1,6 @@
 import codeExcerpt, { type CodeExcerpt } from 'code-excerpt';
 import { readFileSync } from 'fs';
 import React from 'react';
-import StackUtils from 'stack-utils';
 import Box from './Box.js';
 import Text from './Text.js';
 
@@ -12,12 +11,35 @@ import Text from './Text.js';
 const cleanupPath = (path: string | undefined): string | undefined => {
   return path?.replace(`file://${process.cwd()}/`, '');
 };
-let stackUtils: StackUtils | undefined;
-function getStackUtils(): StackUtils {
-  return stackUtils ??= new StackUtils({
-    cwd: process.cwd(),
-    internals: StackUtils.nodeInternals()
-  });
+type ParsedStackLine = {
+  file?: string
+  line?: number
+  column?: number
+  function?: string
+}
+class StackUtilsLite {
+  parseLine(line: string): ParsedStackLine | undefined {
+    const match = line.match(/at\\s+(.*?)\\s+\\((.*?):(\\d+):(\\d+)\\)/) || line.match(/at\\s+(.*?):(\\d+):(\\d+)/)
+    if (!match) return undefined
+    if (match.length === 5) {
+      return {
+        function: match[1],
+        file: match[2],
+        line: Number(match[3]),
+        column: Number(match[4])
+      }
+    }
+    return {
+      file: match[1],
+      line: Number(match[2]),
+      column: Number(match[3]),
+      function: ''
+    }
+  }
+}
+let stackUtils: StackUtilsLite | undefined;
+function getStackUtils(): StackUtilsLite {
+  return stackUtils ??= new StackUtilsLite();
 }
 
 /* eslint-enable custom-rules/no-process-cwd */

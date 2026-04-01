@@ -1,6 +1,6 @@
 import { c as _c } from "react/compiler-runtime";
 import * as React from 'react';
-import { useInterval } from 'usehooks-ts';
+import { useInterval } from 'src/utils/usehooksTsShim.js';
 import { getIsRemoteMode, getIsScrollDraining } from '../../bootstrap/state.js';
 import { useNotifications } from '../../context/notifications.js';
 import { Text } from '../../ink.js';

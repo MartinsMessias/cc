@@ -1,5 +1,4 @@
-import { useEffect, useLayoutEffect } from 'react'
-import { useEventCallback } from 'usehooks-ts'
+import { useCallback, useEffect, useLayoutEffect } from 'react'
 import type { InputEvent, Key } from '../events/input-event.js'
 import useStdin from './use-stdin.js'
 
@@ -66,7 +65,7 @@ const useInput = (inputHandler: Handler, options: Options = {}) => {
   // stopImmediatePropagation() ordering. useEventCallback keeps the
   // reference stable while reading latest isActive/inputHandler from
   // closure (it syncs via useLayoutEffect, so it's compiler-safe).
-  const handleData = useEventCallback((event: InputEvent) => {
+  const handleData = useCallback((event: InputEvent) => {
     if (options.isActive === false) {
       return
     }
@@ -78,7 +77,7 @@ const useInput = (inputHandler: Handler, options: Options = {}) => {
     if (!(input === 'c' && key.ctrl) || !internal_exitOnCtrlC) {
       inputHandler(input, key, event)
     }
-  })
+  }, [options.isActive, internal_exitOnCtrlC, inputHandler])
 
   useEffect(() => {
     internal_eventEmitter?.on('input', handleData)

@@ -1,7 +1,7 @@
 import { basename } from 'path'
 import React from 'react'
 import { logError } from 'src/utils/log.js'
-import { useDebounceCallback } from 'usehooks-ts'
+import { useDebounceCallback } from 'src/utils/usehooksTsShim.js'
 import type { InputEvent, Key } from '../ink.js'
 import {
   getImageFromClipboard,

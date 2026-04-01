@@ -30,7 +30,6 @@ import { mkdir } from 'fs/promises'
 import { createServer, type Server } from 'http'
 import { join } from 'path'
 import { parse } from 'url'
-import xss from 'xss'
 import { MCP_CLIENT_METADATA_URL } from '../../constants/oauth.js'
 import { openBrowser } from '../../utils/browser.js'
 import { getClaudeConfigHomeDir } from '../../utils/envUtils.js'
@@ -43,6 +42,7 @@ import { clearKeychainCache } from '../../utils/secureStorage/macOsKeychainHelpe
 import type { SecureStorageData } from '../../utils/secureStorage/types.js'
 import { sleep } from '../../utils/sleep.js'
 import { jsonParse, jsonStringify } from '../../utils/slowOperations.js'
+import { sanitizeForHtml } from '../../utils/xssSanitize.js'
 import { logEvent } from '../analytics/index.js'
 import type { AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS } from '../analytics/metadata.js'
 import { buildRedirectUri, findAvailablePort } from './oauthPort.js'
@@ -1120,9 +1120,9 @@ export async function performMCPOAuthFlow(
           if (error) {
             res.writeHead(200, { 'Content-Type': 'text/html' })
             // Sanitize error messages to prevent XSS
-            const sanitizedError = xss(String(error))
+            const sanitizedError = sanitizeForHtml(String(error))
             const sanitizedErrorDescription = errorDescription
-              ? xss(String(errorDescription))
+              ? sanitizeForHtml(String(errorDescription))
               : ''
             res.end(
               `<h1>Authentication Error</h1><p>${sanitizedError}: ${sanitizedErrorDescription}</p><p>You can close this window.</p>`,
