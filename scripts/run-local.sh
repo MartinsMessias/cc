@@ -7,8 +7,15 @@ if [[ ! -f "package.json" ]]; then
   exit 1
 fi
 
+if rg -q "from 'bun:bundle'" .; then
+  echo "Erro: este snapshot usa imports 'bun:bundle' (macro de build interna)."
+  echo "Execução direta do código-fonte pode falhar fora do pipeline original."
+  echo "Use o pacote publicado (@anthropic-ai/claude-code) para rodar localmente."
+  exit 1
+fi
+
 echo "Instalando dependências..."
 bun install
 
 echo "Iniciando projeto..."
-bun run .
+bun run setup.ts

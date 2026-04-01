@@ -80,25 +80,16 @@ curl -fsSL https://claude.ai/install.sh | sh
 
 ### Instalação a partir deste repositório
 
-> Atenção: este repositório (snapshot) pode não incluir `package.json`.
-> Se aparecer `Bun could not find a package.json file`, use a instalação global (npm/bun) da seção acima.
+> Atenção: snapshots deste projeto podem depender de macros internas (`bun:bundle`).
+> Mesmo com `package.json`, a execução direta do source pode falhar fora do pipeline original.
 
 ```bash
 # 1) Clone o repositório
 git clone <URL_DO_REPO> cc
 cd cc
 
-# 2) Verifique se existe package.json
-test -f package.json || echo "Sem package.json neste snapshot"
-
-# 3) Se existir package.json, instale dependências
-bun install
-
-# 4) Rodar em modo desenvolvimento
-bun run .
-
-# 5) (Opcional) Build local
-bun run build
+# 2) Tente executar com o helper (valida pré-requisitos)
+./scripts/run-local.sh
 ```
 
 > Se preferir npm/yarn/pnpm no seu ambiente, adapte apenas o passo de instalação e scripts mantendo os mesmos comandos de execução/build definidos no `package.json`.
