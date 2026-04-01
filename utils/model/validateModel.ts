@@ -28,23 +28,24 @@ export async function validateModel(
     return { valid: false, error: 'Model name cannot be empty' }
   }
 
-  // Check if it's a known alias (these are always valid)
-  const lowerModel = normalizedModel.toLowerCase()
-  if ((MODEL_ALIASES as readonly string[]).includes(lowerModel)) {
-    return { valid: true }
-  }
-
-  // Custom env-configured models are explicitly user-approved.
-  if (isConfiguredCustomModel(normalizedModel)) {
-    return { valid: true }
-  }
-
   // Check against availableModels allowlist before any API call
   if (!isModelAllowed(normalizedModel)) {
     return {
       valid: false,
       error: `Model '${normalizedModel}' is not in the list of available models`,
     }
+  }
+
+  // Check if it's a known alias (these are always valid)
+  const lowerModel = normalizedModel.toLowerCase()
+  if ((MODEL_ALIASES as readonly string[]).includes(lowerModel)) {
+    return { valid: true }
+  }
+
+  // Custom env-configured models are explicitly user-approved (but still
+  // subject to allowlist checks above).
+  if (isConfiguredCustomModel(normalizedModel)) {
+    return { valid: true }
   }
 
   // Check cache first

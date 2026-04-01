@@ -43,6 +43,19 @@ function persistEnv(changes: Record<string, string | undefined>): void {
   })
 }
 
+function pickPersistableByomEnv(
+  changes: Record<string, string | undefined>,
+): Record<string, string | undefined> {
+  // Secrets should stay runtime-only; do not write them to global config.
+  const {
+    MODEL_GATEWAY_AUTH_TOKEN: _authToken,
+    MODEL_GATEWAY_API_KEY: _apiKey,
+    MODEL_GATEWAY_CUSTOM_HEADERS: _customHeaders,
+    ...persistable
+  } = changes
+  return persistable
+}
+
 function applyRuntimeEnv(changes: Record<string, string | undefined>): void {
   for (const [key, value] of Object.entries(changes)) {
     if (!value) {
@@ -66,17 +79,16 @@ function buildShowText(): string {
     '(not set)'
   const hasToken = !!(
     process.env.MODEL_GATEWAY_AUTH_TOKEN ||
-    process.env.MODEL_GATEWAY_API_KEY ||
-    savedEnv.MODEL_GATEWAY_AUTH_TOKEN ||
-    savedEnv.MODEL_GATEWAY_API_KEY
+    process.env.MODEL_GATEWAY_API_KEY
   )
   return [
     'BYOM gateway config:',
     `- model: ${model}`,
     `- base: ${base}`,
-    `- token: ${hasToken ? '[configured]' : '[not configured]'}`,
+    `- token (somente sessão): ${hasToken ? '[configured]' : '[not configured]'}`,
     '',
     'Use: /byom set model=<id> base=<url> [token=<secret>|apikey=<secret>] [headers="Name: Value"]',
+    'Obs: token/apikey/headers são aplicados só na sessão atual e não são persistidos em disco.',
   ].join('\n')
 }
 
@@ -94,7 +106,7 @@ export const call: LocalCommandCall = async args => {
       MODEL_GATEWAY_API_KEY: undefined,
       MODEL_GATEWAY_CUSTOM_HEADERS: undefined,
     }
-    persistEnv(clearKeys)
+    persistEnv(pickPersistableByomEnv(clearKeys))
     applyRuntimeEnv(clearKeys)
     return {
       type: 'text',
@@ -152,12 +164,12 @@ export const call: LocalCommandCall = async args => {
         : {}),
     }
 
-    persistEnv(changes)
+    persistEnv(pickPersistableByomEnv(changes))
     applyRuntimeEnv(changes)
 
     return {
       type: 'text',
-      value: `BYOM configurado para '${nextModel}'. Base: ${nextBase}`,
+      value: `BYOM configurado para '${nextModel}'. Base: ${nextBase}. Segredos foram aplicados apenas na sessão atual.`,
     }
   }
 
