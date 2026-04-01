@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-## PMT boot obrigatório (Project Memory Tree)
+## PMT boot
 
 Ao iniciar qualquer sessão, leia obrigatoriamente:
 - `.claude/pmt/root.md`
@@ -12,17 +12,15 @@ Se a tarefa envolver arquitetura, leia também:
 Se envolver decisão técnica passada, leia também:
 - `.claude/pmt/decisions/summary.md`
 
-Regra de economia de contexto:
-- Não ler todos os arquivos da árvore de uma vez.
-- Navegar de forma lazy (somente os galhos necessários para a tarefa).
+Regra: leitura lazy. Só abra o galho necessário.
 
-## Encerramento de sessão (PMT)
+## PMT close
 
-No fim de uma sessão com mudanças relevantes:
+No fim da sessão:
 1. Atualize `.claude/pmt/state/current.md`
 2. Registre decisões novas em `.claude/pmt/decisions/`
 3. Atualize arquivos de arquitetura que mudaram em `.claude/pmt/arch/`
 4. Atualize `summary.md` dos galhos tocados
 5. Re-gere `.claude/pmt/root.md` com base nos summaries
 
-Em caso de conflito entre sessões paralelas, trate PMT como código versionado e faça merge explícito em git.
+Se houver conflito paralelo, faça merge em git.

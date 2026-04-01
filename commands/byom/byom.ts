@@ -86,9 +86,7 @@ function buildShowText(): string {
     `- model: ${model}`,
     `- base: ${base}`,
     `- token (somente sessão): ${hasToken ? '[configured]' : '[not configured]'}`,
-    '',
-    'Use: /byom set model=<id> base=<url> [token=<secret>|apikey=<secret>] [headers="Name: Value"]',
-    'Obs: token/apikey/headers são aplicados só na sessão atual e não são persistidos em disco.',
+    'Uso: /byom set model=<id> base=<url> [token=<secret>|apikey=<secret>] [headers="Name: Value"]',
   ].join('\n')
 }
 
@@ -131,7 +129,7 @@ export const call: LocalCommandCall = async args => {
       return {
         type: 'text',
         value:
-          'Missing required fields. Use: /byom set model=<id> base=<url> [token=<secret>|apikey=<secret>]',
+          'Faltam campos. Use: /byom set model=<id> base=<url> [token=<secret>|apikey=<secret>]',
       }
     }
 
@@ -169,7 +167,7 @@ export const call: LocalCommandCall = async args => {
 
     return {
       type: 'text',
-      value: `BYOM configurado para '${nextModel}'. Base: ${nextBase}. Segredos foram aplicados apenas na sessão atual.`,
+      value: `BYOM ativo: ${nextModel} (${nextBase}). Segredos só na sessão atual.`,
     }
   }
 
