@@ -308,6 +308,9 @@ export async function getAnthropicClient({
     isEnvTruthy(process.env.USE_STAGING_OAUTH)
       ? { baseURL: getOauthConfig().BASE_API_URL }
       : {}),
+    ...(process.env.MODEL_GATEWAY_BASE_URL
+      ? { baseURL: process.env.MODEL_GATEWAY_BASE_URL }
+      : {}),
     ...ARGS,
     ...(isDebugToStdErr() && { logger: createStderrLogger() }),
   }
@@ -321,6 +324,8 @@ async function configureApiKeyHeaders(
 ): Promise<void> {
   const token =
     process.env.ANTHROPIC_AUTH_TOKEN ||
+    process.env.MODEL_GATEWAY_AUTH_TOKEN ||
+    process.env.MODEL_GATEWAY_API_KEY ||
     (await getApiKeyFromApiKeyHelper(isNonInteractiveSession))
   if (token) {
     headers['Authorization'] = `Bearer ${token}`
@@ -329,7 +334,12 @@ async function configureApiKeyHeaders(
 
 function getCustomHeaders(): Record<string, string> {
   const customHeaders: Record<string, string> = {}
-  const customHeadersEnv = process.env.ANTHROPIC_CUSTOM_HEADERS
+  const customHeadersEnv = [
+    process.env.ANTHROPIC_CUSTOM_HEADERS,
+    process.env.MODEL_GATEWAY_CUSTOM_HEADERS,
+  ]
+    .filter(Boolean)
+    .join('\n')
 
   if (!customHeadersEnv) return customHeaders
 

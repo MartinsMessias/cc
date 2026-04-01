@@ -131,6 +131,7 @@ import privacySettings from './commands/privacy-settings/index.js'
 import hooks from './commands/hooks/index.js'
 import files from './commands/files/index.js'
 import branch from './commands/branch/index.js'
+import byom from './commands/byom/index.js'
 import agents from './commands/agents/index.js'
 import plugin from './commands/plugin/index.js'
 import reloadPlugins from './commands/reload-plugins/index.js'
@@ -260,6 +261,7 @@ const COMMANDS = memoize((): Command[] => [
   advisor,
   agents,
   branch,
+  byom,
   btw,
   chrome,
   clear,
