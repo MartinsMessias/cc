@@ -81,6 +81,8 @@ curl -fsSL https://claude.ai/install.sh | sh
 ### Instalação a partir deste repositório
 
 > Use o helper local para validar pré-requisitos e iniciar com uma sequência padrão.
+> Atenção: snapshots deste projeto podem depender de macros internas (`bun:bundle`).
+> Mesmo com `package.json`, a execução direta do source pode falhar fora do pipeline original.
 
 ```bash
 # 1) Clone o repositório
@@ -93,7 +95,8 @@ cd cc
 
 > Se preferir npm/yarn/pnpm no seu ambiente, adapte apenas o passo de instalação e scripts mantendo os mesmos comandos de execução/build definidos no `package.json`.
 
-Atalho: `./scripts/run-local.sh`
+
+Atalho: use `./scripts/run-local.sh` para validar pré-requisitos e iniciar localmente com mensagens de erro mais claras.
 
 ### Post-Installation Setup
 
