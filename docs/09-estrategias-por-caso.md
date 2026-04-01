@@ -11,6 +11,7 @@ Este guia mapeia **estratégias práticas** para os casos mais comuns de uso da 
 | Refatorar com segurança | Mudanças incrementais + checkpoints + revisão de diffs | `/diff`, `/compact`, `/review` | `FileEditTool`, `TaskListTool`, `TodoWriteTool` |
 | Investigar performance | Instrumentar, medir, comparar antes/depois | `/doctor`, `/stats`, `/perf-issue` | `BashTool`, `GrepTool`, `FileReadTool` |
 | Integrar serviço externo (MCP) | Validar auth/política e começar por fluxo mínimo | `/mcp`, `/config`, `/permissions` | `MCPTool`, `ListMcpResourcesTool`, `ReadMcpResourceTool` |
+| Conectar modelo próprio (BYOM) | Usar gateway compatível com API Anthropic + rollout progressivo | `/status`, `/doctor`, `/model` | `WebSearchTool` (opcional), `BashTool` |
 | Operar em ambiente remoto | Verificar bridge/limites e executar com rastreabilidade | `/session`, `/remote-env`, `/status` | `RemoteTriggerTool`, `TaskOutputTool`, `SendMessageTool` |
 | Organizar trabalho longo | Quebrar em plano e tarefas monitoráveis | `/plan`, `/tasks`, `/memory` | `EnterPlanModeTool`, `TaskCreateTool`, `TaskUpdateTool` |
 | Produzir documentação técnica | Coletar fatos por módulo e sintetizar por domínio | `/files`, `/summary`, `/export` | `FileReadTool`, `GlobTool`, `TodoWriteTool` |
@@ -108,6 +109,32 @@ Este guia mapeia **estratégias práticas** para os casos mais comuns de uso da 
 3. Incluir guias de decisão (quando usar cada abordagem).
 4. Manter seção de inventário e trilha de onboarding.
 
+## 9) Conectar modelo próprio (BYOM — Bring Your Own Model)
+
+**Objetivo:** permitir uso de um modelo próprio sem quebrar ferramentas da CLI.
+
+**Estratégia recomendada (menor risco):**
+1. **Comece por um gateway/proxy compatível com Anthropic Messages API** em vez de integrar um provider novo no código da CLI.
+2. Configure variáveis de ambiente para apontar o tráfego:
+   - `ANTHROPIC_BASE_URL` para o endpoint do gateway;
+   - `ANTHROPIC_AUTH_TOKEN` (Bearer) ou `ANTHROPIC_API_KEY` conforme o gateway;
+   - `ANTHROPIC_CUSTOM_HEADERS` quando o gateway exigir cabeçalhos extras.
+3. Faça **rollout em etapas**:
+   - etapa 1: prompts simples sem tools;
+   - etapa 2: ativar tools básicas de arquivo/bash;
+   - etapa 3: validar recursos avançados (MCP, tool search, streaming longo).
+4. Monitore com `/status` e `/doctor` antes de abrir para todo o time.
+5. Só depois padronize em `.claude.json`/ambiente corporativo.
+
+**Cuidados importantes:**
+- Algumas features beta (ex.: `tool_reference`) podem não ser aceitas por gateways; se necessário, ajuste `ENABLE_TOOL_SEARCH`.
+- Preserve compatibilidade de streaming SSE e códigos de erro para evitar falhas intermitentes.
+- Defina timeout e retry no gateway para sessões longas.
+
+**Quando escolher outra estratégia:**
+- Se você precisa suporte oficial AWS/GCP/Azure, prefira os provedores já suportados (`Bedrock`, `Vertex`, `Foundry`) via variáveis dedicadas.
+- Se você precisa modelo totalmente fora do formato Anthropic, considere um adaptador no gateway (tradução de schema/request/response) em vez de alterar o core da CLI.
+
 ---
 
 ## Estratégia de escolha rápida (heurística)
@@ -116,4 +143,3 @@ Este guia mapeia **estratégias práticas** para os casos mais comuns de uso da 
 - **Mudança estrutural:** estratégia incremental com checkpoints.
 - **Incerteza alta:** estratégia de observabilidade primeiro (medir antes de alterar).
 - **Ambiente regulado/corporativo:** estratégia orientada por política/permissão.
-
